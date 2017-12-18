@@ -43,28 +43,28 @@ namespace AsycAwaitLoadTest.Controllers
         //    return new ObjectResult(new string[] { time, DateTime.Now.ToLongTimeString(), content });
         //}
 
-        public async Task<IActionResult> GetShortService(string time, int? id)
+        public  IActionResult GetShortService(string time, int? id)
         {
             if (id == null)
             {
-                //Thread.Sleep(5000);
-                await System.Threading.Tasks.Task.Delay(5000);
+                Thread.Sleep(5000);
+                //await System.Threading.Tasks.Task.Delay(5000);
 
                 return new ObjectResult(new string[] { time, DateTime.Now.ToLongTimeString() });
             }
 
 
             //Thread.Sleep(100);
-            await System.Threading.Tasks.Task.Delay(100);
+            //await System.Threading.Tasks.Task.Delay(100);
 
-            return new ObjectResult(new string[] { time, DateTime.Now.ToLongTimeString(),id.ToString()});
+            //return new ObjectResult(new string[] { time, DateTime.Now.ToLongTimeString(),id.ToString()});
 
 
-            //HttpClient httpClient = new HttpClient();
-            //HttpResponseMessage result = httpClient.GetAsync(new Uri("https://jsonplaceholder.typicode.com/comments/" + id)).Result;
-            //var content = result.Content.ReadAsStringAsync();
+            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage result = httpClient.GetAsync(new Uri("https://jsonplaceholder.typicode.com/comments/" + id)).Result;
+            var content = result.Content.ReadAsStringAsync().Result;
 
-            //return new ObjectResult(new string[] { time, DateTime.Now.ToLongTimeString(), content.Result });
+            return new ObjectResult(new string[] { time, DateTime.Now.ToLongTimeString(), content });
         }
 
 

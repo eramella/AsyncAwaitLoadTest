@@ -46,8 +46,8 @@
                     url: 'http://localhost:62952/ShortService?time=' + timeStr + '&id=' + i
                 })
                     .done(function (data) {
-                        //var result2 = JSON.parse(data[2]);
-                        var result = data[0] + ' ' + data[1] + ' ' + data[2];//+ result2.id + ' ' + result2.name;
+                        var result2 = JSON.parse(data[2]);
+                        var result = data[0] + ' ' + data[1] + ' ' + result2.id + ' ' + result2.name;//+ data[2];
                         $('#result').append('<div>' + result + '</div>');
                     });
 
