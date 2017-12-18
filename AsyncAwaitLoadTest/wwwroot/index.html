@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button id="start" type="button">Start</button>
+    <div id="result"></div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script>
+        var config = {
+            loop: 500,
+            interval: 10
+        };
+
+        function callLong() {
+            var timeNow = new Date();
+            var timeStr = timeNow.getHours() + ":" + timeNow.getMinutes() + ":" + timeNow.getSeconds() + ":" + timeNow.getMilliseconds();
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:62952/ShortService?time=' + timeStr
+            })
+                .done(function (data) {
+                    var result = "";
+                    data.forEach(function (el) {
+                        result += el + ' ';
+                    });
+                    $('#result').append('<div>' + result + ' ' + 'LOOONNNGGG CALLLLLLL</div>');
+                })
+        }
+        function start() {
+            callLong()
+            //setTimeout(function () {
+            //    callLong();
+            //}, 6000);
+
+            for (var i = 1; i < config.loop; i++) {
+
+                var timeNow = new Date();
+                var timeStr = timeNow.getHours() + ":" + timeNow.getMinutes() + ":" + timeNow.getSeconds() + ":" + timeNow.getMilliseconds();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:62952/ShortService?time=' + timeStr + '&id=' + i
+                })
+                    .done(function (data) {
+                        //var result2 = JSON.parse(data[2]);
+                        var result = data[0] + ' ' + data[1] + ' ' + data[2];//+ result2.id + ' ' + result2.name;
+                        $('#result').append('<div>' + result + '</div>');
+                    });
+
+                if (i % 150 == 0) {
+                    callLong();
+                }
+
+            }
+
+        }
+        $('document').ready(function () {
+            $('#start').on('click', function () {
+                start();
+            });
+        });
+
+
+    </script>
+</body>
+</html>
